@@ -1,0 +1,82 @@
+{
+  "name": "Story Apps - Dicoding Proyek Akhir",
+  "short_name": "Story Apps",
+  "description": "Aplikasi ini dirancang untuk membantu pengguna mengelola tugas-tugas sehari-hari mereka dengan cara yang sederhana dan efisien. Dengan antarmuka yang intuitif dan mudah digunakan, kamu bisa menambahkan, mengedit, dan menghapus tugas hanya dalam beberapa klik. Aplikasi ini juga memungkinkan kamu untuk mengatur pengingat, sehingga kamu tidak akan melewatkan tugas penting. Selain itu, aplikasi ini memiliki fitur untuk menandai tugas yang sudah selesai, memberikan pengalaman yang lebih terorganisir. Dengan desain responsif, aplikasi ini dapat digunakan di berbagai perangkat, baik itu ponsel, tablet, atau desktop, memastikan kamu selalu dapat mengakses daftar tugasmu kapan saja dan di mana saja.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "icons": [
+    {
+      "src": "icons/icon-123.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/CityCareApp_001.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/CityCareApp_002.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/CityCareApp_003.png",
+      "sizes": "1920x1043",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/CityCareApp_004.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/CityCareApp_005.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/CityCareApp_006.png",
+      "sizes": "1080x2280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Story Baru",
+      "short_name": "Baru",
+      "description": "Membuat story baru.",
+      "url": "/#/add",
+      "icons": [
+        {
+          "src": "icons/icon-123.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    },
+    {
+      "name": "Bookmark Story",
+      "short_name": "Bookmarks",
+      "description": "Menyimpan Story",
+      "url": "/#/bookmarks",
+      "icons": [
+        {
+          "src": "icons/icon-123.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        }
+      ]
+    }
+  ]
+}
