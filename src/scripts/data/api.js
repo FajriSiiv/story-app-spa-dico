@@ -1,4 +1,5 @@
 import CONFIG from '../config';
+import Database from '../database';
 
 const ENDPOINTS = {
   ENDPOINT_REGISTER: `${CONFIG.BASE_URL}/register`,
@@ -146,22 +147,16 @@ export async function subscribePushNotification({ endpoint, keys: { p256dh, auth
   };
 }
 
-export async function unsubscribePushNotification({ endpoint }) {
-  const token = localStorage.getItem("authToken");
-  const data = JSON.stringify({ endpoint });
-
-  const fetchResponse = await fetch(ENDPOINTS.UNSUBSCRIBE, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    body: data,
-  });
-  const json = await fetchResponse.json();
-
-  return {
-    ...json,
-    ok: fetchResponse.ok,
-  };
+export async function saveStoryOffline() {
+  if (navigator.onLine) {
+    try {
+      return await getData();
+    } catch (error) {
+      console.error(error);
+      return await Database.getAllStorys();
+    }
+  } else {
+    return await Database.getAllStorys();
+  }
 }
+

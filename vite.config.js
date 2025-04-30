@@ -5,11 +5,12 @@ import { resolve } from 'path';
 export default defineConfig({
   root: resolve(__dirname, 'src'),
   publicDir: resolve(__dirname, 'src', 'public'),
-  // server: {
-  //   mimeTypes: {
-  //     'webmanifest': 'application/manifest+json'
-  //   }
-  // },
+  server: {
+    // mimeTypes: {
+    //   'webmanifest': 'application/manifest+json'
+    // }
+  },
+
   build: {
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
@@ -25,6 +26,30 @@ export default defineConfig({
       includeAssets: ['favicon.svg', 'robots.txt'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/story-api\.dicoding\.dev\/v1\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24, // 1 hari  
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/story-api\.dicoding\.dev\/v1\/images\/.*$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'image-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 hari
+              },
+            },
+          },
+        ],
       },
       manifest: {
         name: 'Story App - Dicoding Proyek Akhir',
@@ -93,6 +118,8 @@ export default defineConfig({
           ]
         }]
       },
-    })
+
+    }),
+
   ]
 });

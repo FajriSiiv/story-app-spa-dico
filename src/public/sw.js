@@ -21,17 +21,30 @@ self.addEventListener('install', (event) => {
   );
 });
 
-self.addEventListener('activate', (event) => {
-  console.log('✅ Service Worker activated');
-});
-
 self.addEventListener('fetch', (event) => {
+  if (
+    event.request.method !== 'GET' ||
+    event.request.url.startsWith('ws://') || event.request.url.startsWith('wss://')
+  ) return;
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        const clonedResponse = networkResponse.clone();
+        caches.open('v1').then((cache) => cache.put(event.request, clonedResponse));
+        return networkResponse;
+      })
+      .catch(() => {
+        return caches.match(event.request).then((cachedResponse) => {
+          return cachedResponse || new Response('Data tidak tersedia offline', {
+            status: 503,
+            statusText: 'Service Unavailable',
+          });
+        });
+      })
   );
 });
+
 
 self.addEventListener('push', (event) => {
   event.waitUntil(

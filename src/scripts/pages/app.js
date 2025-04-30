@@ -3,7 +3,7 @@ import { getActiveRoute } from '../routes/url-parser';
 import { bookmarkLink } from '../template/bookmark-template';
 import { generateSubscribeButtonTemplate, generateUnsubscribeButtonTemplate } from '../template/push-notif-btn';
 import swRegister, { setupSkipToContent } from '../utils';
-import { getPushUnSubscription, isCurrentPushSubscriptionAvailable, subscribe, unsubscribe } from '../utils/notification';
+import { isCurrentPushSubscriptionAvailable, subscribe, unsubscribe } from '../utils/notification';
 
 class App {
   #content = null;
