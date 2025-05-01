@@ -42,19 +42,27 @@ export default class DetailPresenter {
 
   async saveStory() {
     try {
+      const offlineStory = await this.#dbModel.getOfflineStoryById(this.#detailId);
+
+      if (offlineStory) {
+        await this.#dbModel.putStory(offlineStory);
+        this.#view.saveToBookmarkSuccessfully('Berhasil disimpan secara offline.');
+        return;
+      }
+
       const story = await this.#model(this.#detailId);
 
-
       if (!story || !story.story) {
-        throw new Error('Story data is empty');
+        throw new Error('Story tidak ditemukan dari server.');
       }
-      await this.#dbModel.putStory(story.story);
 
-      this.#view.saveToBookmarkSuccessfully('Success to save to bookmark');
+      await this.#dbModel.putStory(story.story);
+      this.#view.saveToBookmarkSuccessfully('Berhasil disimpan dari online.');
     } catch (error) {
       this.#view.saveToBookmarkFailed(error.message);
     }
   }
+
 
   async removeStory() {
     try {

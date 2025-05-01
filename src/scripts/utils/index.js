@@ -52,7 +52,7 @@ export default async function swRegister() {
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('./sw.js');
+    const registration = await navigator.serviceWorker.register('sw.js');
   } catch (error) {
     console.error('Service worker registration failed');
   }

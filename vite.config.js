@@ -4,13 +4,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   root: resolve(__dirname, 'src'),
-  publicDir: resolve(__dirname, 'src', 'public'),
-  server: {
-    // mimeTypes: {
-    //   'webmanifest': 'application/manifest+json'
-    // }
-  },
-
+  publicDir: resolve(__dirname, 'public'),
   build: {
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
@@ -61,44 +55,44 @@ export default defineConfig({
         theme_color: '#4a90e2',
         icons: [
           {
-            src: 'icons/icon-123.png',
+            src: 'public/icons/icon-123.png',
             sizes: '512x512',
             type: 'image/png',
           },
         ],
         screenshots: [
           {
-            src: "screenshots/CityCareApp_001.png",
+            src: "public/screenshots/CityCareApp_001.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "screenshots/CityCareApp_002.png",
+            src: "public/screenshots/CityCareApp_002.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "screenshots/CityCareApp_003.png",
+            src: "public/screenshots/CityCareApp_003.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "screenshots/CityCareApp_004.png",
+            src: "public/screenshots/CityCareApp_004.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"
           },
           {
-            src: "screenshots/CityCareApp_005.png",
+            src: "public/screenshots/CityCareApp_005.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"
           },
           {
-            src: "screenshots/CityCareApp_006.png",
+            src: "public/screenshots/CityCareApp_006.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"
@@ -111,7 +105,7 @@ export default defineConfig({
           url: "/#/add",
           icons: [
             {
-              src: "icons/icon-123.png",
+              src: "/icons/icon-123.png",
               type: "image/png",
               sizes: "512x512"
             }
