@@ -16,25 +16,25 @@ export default class HomePresenter {
       let data;
       if (navigator.onLine) {
         data = await this.#model();
-        console.log(data);
 
         if (data.listStory) {
           await Database.saveOfflineStories(data.listStory);
         }
       } else {
-        console.error('Fetch online failed, fallback to offline data');
         data = {
           listStory: await Database.getOfflineStories(),
         };
-
         if (!data.listStory || !data.listStory.length) {
           storiesContainer.innerHTML = '<p>No stories available. Please check back when you are online.</p>';
           return;
         }
       }
+      const sortedStories = data.listStory.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
 
-      this.renderStories(storiesContainer, data.listStory);
-      this.initializeMap(mapContainer, data.listStory);
+      this.renderStories(storiesContainer, sortedStories);
+      this.initializeMap(mapContainer, sortedStories);
     } catch (error) {
       storiesContainer.innerHTML = `<p>Something went wrong. Please try again later.</p>`;
       console.error('Error fetching stories:', error);

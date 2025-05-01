@@ -1,4 +1,5 @@
 import { openDB } from 'idb';
+import { getTimeAgo, showFormattedDate } from './utils';
 
 const DATABASE_NAME = 'story-apps';
 const DATABASE_VERSION = 2;
@@ -51,19 +52,45 @@ const Database = {
   },
 
   async saveOfflineStories(stories) {
-    const db = await dbPromise;
-    const tx = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
-    const store = tx.objectStore(OBJECT_STORE_OFFLINE);
-    for (const story of stories) {
-      await store.put(story);
+    try {
+      const db = await dbPromise;
+      {
+        const txClear = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
+        const storeClear = txClear.objectStore(OBJECT_STORE_OFFLINE);
+        await storeClear.clear();
+        await txClear.done;
+      }
+
+      const sortedStories = stories.sort((a, b) => b.createdAt - a.createdAt);
+
+      {
+        const tx = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
+        const store = tx.objectStore(OBJECT_STORE_OFFLINE);
+
+        for (const story of sortedStories) {
+          await store.put({
+            ...story,
+            createdAt: story.createdAt || Date.now(),
+            id: story.id,
+          });
+        }
+
+        await tx.done;
+      }
+    } catch (err) {
+      console.error('Error saat saveOfflineStories:', err);
     }
-    await tx.done;
   },
 
   async getOfflineStories() {
     const db = await dbPromise;
     return db.getAll(OBJECT_STORE_OFFLINE);
   },
+
+  async getOfflineStoryById(id) {
+    const db = await dbPromise;
+    return db.get(OBJECT_STORE_OFFLINE, id);
+  }
 };
 
 export default Database;

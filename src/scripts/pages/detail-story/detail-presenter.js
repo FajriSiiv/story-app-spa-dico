@@ -12,19 +12,31 @@ export default class DetailPresenter {
   }
 
   async getDataDetail() {
-
     this.#view.renderLoading();
 
     try {
-      const data = await this.#model(this.#detailId);
 
+      const checkInBookmark = await this.#dbModel.getStoryById(this.#detailId);
+      const offlineStory = await this.#dbModel.getOfflineStoryById(this.#detailId);
+
+      if (checkInBookmark) {
+        this.#view.renderStory(checkInBookmark);
+        return;
+      }
+
+      if (offlineStory) {
+        this.#view.renderStory(offlineStory);
+        return;
+      }
+
+      const data = await this.#model(this.#detailId);
       if (data.error) {
         this.#view.renderError(data.message);
       } else {
         this.#view.renderStory(data.story);
       }
     } catch (error) {
-      this.#view.renderError(error.message || 'Error Page');
+      this.#view.renderError('Gagal menampilkan cerita: ' + (error.message || 'Tidak diketahui'));
     }
   }
 
@@ -36,10 +48,7 @@ export default class DetailPresenter {
       if (!story || !story.story) {
         throw new Error('Story data is empty');
       }
-
       await this.#dbModel.putStory(story.story);
-
-
 
       this.#view.saveToBookmarkSuccessfully('Success to save to bookmark');
     } catch (error) {

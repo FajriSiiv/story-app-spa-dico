@@ -100,7 +100,7 @@ export default class DetailPage {
   }
 
   renderError(message) {
-    document.querySelector('#story-detail').innerHTML = `<p>${message}</p>`;
+    document.querySelector('#story-detail').innerHTML = `<p>${message} ss</p>`;
 
   }
 
