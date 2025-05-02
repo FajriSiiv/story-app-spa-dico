@@ -34,9 +34,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ request }) =>
-              request.destination === 'image' &&
-              /\.(png|jpe?g|gif|webp|svg|avif|apng|bmp|ico|tiff?|blob)$/i.test(request.url),
+            urlPattern: /^https:\/\/story-api\.dicoding\.dev\/images\/stories\/.*\.(png|jpe?g|gif|webp|svg|avif|apng|bmp|ico|tiff?|blob)$/i,
             handler: 'CacheFirst',
             options: {
               cacheName: 'images-v1',
