@@ -44,7 +44,9 @@ export async function getDetailData(id) {
       }
     });
 
-    return await fetchResponse.json();
+    const respose = await fetchResponse.json()
+
+    return respose.story;
   } catch (error) {
     return {
       error: true,

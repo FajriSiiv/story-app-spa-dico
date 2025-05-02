@@ -19,22 +19,27 @@ export default class DetailPresenter {
       const checkInBookmark = await this.#dbModel.getStoryById(this.#detailId);
       const offlineStory = await this.#dbModel.getOfflineStoryById(this.#detailId);
 
-      if (checkInBookmark) {
-        this.#view.renderStory(checkInBookmark);
-        return;
-      }
 
-      if (offlineStory) {
-        this.#view.renderStory(offlineStory);
-        return;
-      }
-
-      const data = await this.#model(this.#detailId);
-      if (data.error) {
-        this.#view.renderError(data.message);
+      if (navigator.onLine) {
+        const data = await this.#model(this.#detailId);
+        if (data.error) {
+          this.#view.renderError(data.message);
+        } else {
+          this.#view.renderStory(data);
+        }
       } else {
-        this.#view.renderStory(data.story);
+        if (checkInBookmark) {
+          this.#view.renderStory(checkInBookmark);
+          return;
+        }
+
+        if (offlineStory) {
+          this.#view.renderStory(offlineStory);
+          return;
+        }
       }
+
+
     } catch (error) {
       this.#view.renderError('Gagal menampilkan cerita: ' + (error.message || 'Tidak diketahui'));
     }
@@ -43,6 +48,7 @@ export default class DetailPresenter {
   async saveStory() {
     try {
       const offlineStory = await this.#dbModel.getOfflineStoryById(this.#detailId);
+      console.log(offlineStory);
 
       if (offlineStory) {
         await this.#dbModel.putStory(offlineStory);
@@ -50,13 +56,15 @@ export default class DetailPresenter {
         return;
       }
 
-      const story = await this.#model(this.#detailId);
 
-      if (!story || !story.story) {
+      const story = await this.#model(this.#detailId);
+      console.log(story);
+
+      if (!story) {
         throw new Error('Story tidak ditemukan dari server.');
       }
 
-      await this.#dbModel.putStory(story.story);
+      await this.#dbModel.putStory(story);
       this.#view.saveToBookmarkSuccessfully('Berhasil disimpan dari online.');
     } catch (error) {
       this.#view.saveToBookmarkFailed(error.message);

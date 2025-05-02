@@ -1,8 +1,7 @@
 
 
-
 self.addEventListener('install', (event) => {
-
+  console.log('Service Worker installing...');
   self.skipWaiting();
 
   event.waitUntil(
@@ -14,7 +13,11 @@ self.addEventListener('install', (event) => {
         '/src/styles/styles.css',
         '/src/scripts/pages/app.js',
         '/src/public/manifest.webmanifest',
-        '/src/public/favicon.png'
+        '/src/public/favicon.png',
+        '/src/scripts/database.js',
+        '/src/scripts/utils/index.js',
+        '/src/scripts/utils/useCamera.js',
+        '/src/scripts/utils/notification.js',
       ]);
     })
   );

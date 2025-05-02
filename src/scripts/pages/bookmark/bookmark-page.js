@@ -40,14 +40,20 @@ export default class BookmarkPage {
       return;
     }
     const html = storys.reduce((accumulator, story) => {
+      console.log(story, ' news');
+
+      if (!story) {
+        return accumulator; // jika story null atau undefined, lanjutkan
+      }
+
       return accumulator.concat(
         generateStoryItemTemplate({
           ...story,
-          id: story.story.id,
-          description: story.story.description,
-          name: story.story.name,
-          photoUrl: story.story.photoUrl,
-          time: story.story.createdAt
+          id: story.id,
+          description: story.description,
+          name: story.name,
+          photoUrl: story.photoUrl,
+          time: story.createdAt
         }),
       );
     }, '');

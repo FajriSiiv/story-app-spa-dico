@@ -15,6 +15,7 @@ export default defineConfig({
     },
   },
   plugins: [
+
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt'],
@@ -33,13 +34,13 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/story-api\.dicoding\.dev\/v1\/images\/.*$/,
-            handler: 'StaleWhileRevalidate',
+            urlPattern: ({ request }) => request.destination === 'image',
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'image-cache',
+              cacheName: 'images',
               expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 hari
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 1 minggu
               },
             },
           },
@@ -55,44 +56,44 @@ export default defineConfig({
         theme_color: '#4a90e2',
         icons: [
           {
-            src: 'public/icons/icon-123.png',
+            src: '/icons/icon-123.png',
             sizes: '512x512',
             type: 'image/png',
           },
         ],
         screenshots: [
           {
-            src: "public/screenshots/CityCareApp_001.png",
+            src: "/screenshots/CityCareApp_001.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "public/screenshots/CityCareApp_002.png",
+            src: "/screenshots/CityCareApp_002.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "public/screenshots/CityCareApp_003.png",
+            src: "/screenshots/CityCareApp_003.png",
             sizes: "1920x1043",
             type: "image/png",
             form_factor: "wide"
           },
           {
-            src: "public/screenshots/CityCareApp_004.png",
+            src: "/screenshots/CityCareApp_004.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"
           },
           {
-            src: "public/screenshots/CityCareApp_005.png",
+            src: "/screenshots/CityCareApp_005.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"
           },
           {
-            src: "public/screenshots/CityCareApp_006.png",
+            src: "/screenshots/CityCareApp_006.png",
             sizes: "1080x2280",
             type: "image/png",
             form_factor: "narrow"

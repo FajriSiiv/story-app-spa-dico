@@ -1,3 +1,5 @@
+// import { registerSW } from 'virtual:pwa-register';
+
 export function showFormattedDate(date, locale = 'en-US', options = {}) {
   return new Date(date).toLocaleDateString(locale, {
     year: 'numeric',
@@ -52,8 +54,20 @@ export default async function swRegister() {
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('sw.js');
+    const registration = await navigator.serviceWorker.register('/sw.js', {
+      scope: '/'
+    });
+    console.log('Service Worker registered with scope:', registration.scope);
   } catch (error) {
     console.error('Service worker registration failed');
   }
+
+  // return registerSW({
+  //   onOfflineReady() {
+  //     console.log('App siap offline');
+  //   },
+  //   onNeedRefresh() {
+  //     console.log('Update tersedia');
+  //   }
+  // });
 }

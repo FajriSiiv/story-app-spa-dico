@@ -15,41 +15,30 @@ export default class BookmarkPresenter {
     try {
       const listOfStorys = await this.#model.getAllStorys();
 
-      const storyResults = await Promise.allSettled(
-        listOfStorys.map(async (story) => {
-          try {
-            return await getDetailData(story.id);
-          } catch (error) {
-            if (error.response?.status === 404) {
-              console.warn(`Story dengan ID ${story.id} tidak ditemukan.`);
-              return null;
+      const storys = await Promise.all(
+        listOfStorys
+          .filter(story => story && story.id)
+          .map(async (story) => {
+            if (navigator.onLine) {
+              const onlineStory = await getDetailData(story.id);
+              return onlineStory ? onlineStory : null;
+            } else {
+              const offlineStory = await this.#model.getStoryById(story.id);
+              return offlineStory ? offlineStory : null;
             }
-            throw error;
-          }
-        })
+          })
       );
 
-      const successfulStorys = storyResults
-        .filter((result) => result.status === 'fulfilled' && result.value !== null)
-        .map((result) => result.value);
-
-      const sortedStorys = successfulStorys.sort((a, b) => {
-        return new Date(b.story.createdAt) - new Date(a.story.createdAt);
-      });
-
-      if (sortedStorys.length === 0) {
-        throw new Error('Tidak ada story yang berhasil dimuat.');
-      }
+      console.log('Processed stories:', storys);
 
       const message = 'Berhasil mendapatkan daftar story tersimpan.';
-      this.#view.populateBookmarkedStorys(message, sortedStorys);
+      this.#view.populateBookmarkedStorys(message, storys);
     } catch (error) {
       console.error('initialStorysAndMap: error:', error);
       this.#view.populateBookmarkedStorysError(error.message);
     } finally {
       this.#view.hideStorysListLoading();
+
     }
   }
-
-
 }
