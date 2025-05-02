@@ -43,7 +43,7 @@ export default class BookmarkPage {
       console.log(story, ' news');
 
       if (!story) {
-        return accumulator; // jika story null atau undefined, lanjutkan
+        return accumulator;
       }
 
       return accumulator.concat(

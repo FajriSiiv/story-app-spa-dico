@@ -1,5 +1,3 @@
-// import { registerSW } from 'virtual:pwa-register';
-
 export function showFormattedDate(date, locale = 'en-US', options = {}) {
   return new Date(date).toLocaleDateString(locale, {
     year: 'numeric',
@@ -62,12 +60,5 @@ export default async function swRegister() {
     console.error('Service worker registration failed');
   }
 
-  // return registerSW({
-  //   onOfflineReady() {
-  //     console.log('App siap offline');
-  //   },
-  //   onNeedRefresh() {
-  //     console.log('Update tersedia');
-  //   }
-  // });
+
 }

@@ -58,48 +58,15 @@ const Database = {
     return db.delete(OBJECT_STORE_NAME, id);
   },
 
-  // async saveOfflineStories(stories) {
-  //   try {
-  //     const db = await dbPromise;
-  //     {
-  //       const txClear = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
-  //       const storeClear = txClear.objectStore(OBJECT_STORE_OFFLINE);
-  //       await storeClear.clear();
-  //       await txClear.done;
-  //     }
-
-  //     const sortedStories = stories.sort((a, b) => b.createdAt - a.createdAt);
-
-  //     {
-  //       const tx = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
-  //       const store = tx.objectStore(OBJECT_STORE_OFFLINE);
-
-  //       for (const story of sortedStories) {
-  //         await store.put({
-  //           ...story,
-  //           createdAt: story.createdAt || Date.now(),
-  //           id: story.id,
-  //         });
-  //       }
-
-  //       await tx.done;
-  //     }
-  //   } catch (err) {
-  //     console.error('Error saat saveOfflineStories:', err);
-  //   }
-  // },
-
   async saveOfflineStories(stories) {
     try {
       const db = await dbPromise;
 
-      // Bersihkan data lama dulu
       const txClear = db.transaction(OBJECT_STORE_OFFLINE, 'readwrite');
       const storeClear = txClear.objectStore(OBJECT_STORE_OFFLINE);
       await storeClear.clear();
       await txClear.done;
 
-      // Ambil gambar sebagai Blob dan simpan
       const sortedStories = stories.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       const storiesWithImages = await Promise.all(
         sortedStories.map(async (story) => {

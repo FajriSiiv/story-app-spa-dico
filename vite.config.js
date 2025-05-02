@@ -29,22 +29,26 @@ export default defineConfig({
               cacheName: `api-cache-v2`,
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24, // 1 hari  
+                maxAgeSeconds: 60 * 60 * 24,
               },
             },
           },
           {
             urlPattern: ({ request }) =>
-              request.destination === 'image' && /\.(jpg|jpeg|png|gif|webp)$/i.test(request.url),
+              request.destination === 'image' &&
+              /\.(png|jpe?g|gif|webp|svg|avif|apng|bmp|ico|tiff?|blob)$/i.test(request.url),
             handler: 'CacheFirst',
             options: {
-              cacheName: `images-v${new Date().getTime()}`,
+              cacheName: 'images-v1',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 7, // 1 minggu
+                maxAgeSeconds: 60 * 60 * 24 * 7,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
               },
             },
-          },
+          }
         ],
       },
       manifest: {
