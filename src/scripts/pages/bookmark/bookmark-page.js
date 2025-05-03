@@ -40,7 +40,6 @@ export default class BookmarkPage {
       return;
     }
     const html = storys.reduce((accumulator, story) => {
-      console.log(story, ' news');
 
       if (!story) {
         return accumulator;

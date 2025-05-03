@@ -29,7 +29,6 @@ export default class BookmarkPresenter {
           })
       );
 
-      console.log('Processed stories:', storys);
 
       const message = 'Berhasil mendapatkan daftar story tersimpan.';
       this.#view.populateBookmarkedStorys(message, storys);

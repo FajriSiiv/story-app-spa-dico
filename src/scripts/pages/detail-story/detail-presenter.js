@@ -52,12 +52,44 @@ export default class DetailPresenter {
 
       if (offlineStory) {
         await this.#dbModel.putStory(offlineStory);
+
+        if (offlineStory.photoUrl) {
+          try {
+            const cache = await caches.open('bookmark-images');
+            const match = await cache.match(offlineStory.photoUrl);
+
+            if (!match) {
+              await cache.add(offlineStory.photoUrl);
+            }
+            console.log(`Gambar ${offlineStory.photoUrl} berhasil dicache`);
+          } catch (cacheError) {
+            console.error('Gagal mencache gambar:', cacheError);
+          }
+        }
+
         this.#view.saveToBookmarkSuccessfully('Berhasil disimpan secara offline.');
         return;
       }
 
 
       const story = await this.#model(this.#detailId);
+
+      if (story.photoUrl) {
+        try {
+          const cache = await caches.open('bookmark-images');
+          const match = await cache.match(story.photoUrl);
+
+          if (!match) {
+            await cache.add(story.photoUrl);
+          }
+
+          console.log(`Gambar ${story.photoUrl} berhasil dicache`);
+
+        } catch (cacheError) {
+          console.error('Gagal mencache gambar:', cacheError);
+        }
+      }
+
       console.log(story);
 
       if (!story) {

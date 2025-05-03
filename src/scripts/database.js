@@ -35,8 +35,6 @@ const Database = {
       throw new Error('`id` is required.');
     }
     const db = await dbPromise;
-    console.log(db, 'db');
-    console.log(`Fetching story with id: ${id}`);
 
     const story = await db.get(OBJECT_STORE_NAME, id);
     if (!story) {

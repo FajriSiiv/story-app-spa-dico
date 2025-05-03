@@ -20,6 +20,8 @@ export default class AddPresenter {
     const lon = this.lon;
     const fileInput = document.getElementById("image-input");
     const photo = fileInput.files[0] || this.photoBlob;
+    console.log(photo);
+
 
     if (!photo) {
       alert("Please select or capture a photo.");

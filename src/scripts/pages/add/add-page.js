@@ -118,6 +118,8 @@ export default class AddPage {
       document.getElementById("capture-btn").disabled = false;
       document.getElementById("stop-btn").disabled = false;
 
+      console.log('cammera');
+
     } catch (error) {
       alert("Camera access failed.");
     }
