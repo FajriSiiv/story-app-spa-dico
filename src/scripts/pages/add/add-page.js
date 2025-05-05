@@ -1,6 +1,18 @@
 import { addStory } from "../../data/api";
+import { base64ToFile } from "../../utils";
 import { CameraCapture } from "../../utils/useCamera";
 import AddPresenter from "./add-presenter";
+
+
+import L from 'leaflet';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: '/images/leaflet/marker-icon-2x.png',
+  iconUrl: 'images/leaflet/marker-icon.png',
+  shadowUrl: 'images/leaflet/marker-shadow.png',
+});
 
 export default class AddPage {
   #presenter = null;
@@ -135,12 +147,15 @@ export default class AddPage {
 
   }
 
-  capturePhoto() {
-    const photo = this.#camera.capturePhoto();
+  async capturePhoto() {
+    const blob = await this.#camera.capturePhoto();
     const preview = document.getElementById("photo-preview");
-    preview.src = photo;
+    preview.src = blob;
     preview.style.display = "block";
-    this.photoBlob = photo;
+    this.photoBlob = blob;
+
+    const fileNameSpan = document.querySelector(".file-name");
+    fileNameSpan.textContent = "captured-image.jpg";
   }
 
   #setupCameraControls() {
@@ -152,6 +167,12 @@ export default class AddPage {
     startBtn.addEventListener("click", () => this.initCamera());
     stopBtn.addEventListener("click", () => this.stopCamera());
     captureBtn.addEventListener("click", () => this.capturePhoto());
+  }
+
+  getBlobPhoto() {
+    const fileCapture = base64ToFile(this.photoBlob, 'capture-image.jpg');
+
+    return fileCapture;
   }
 
 }
