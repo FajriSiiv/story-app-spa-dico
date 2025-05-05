@@ -1,5 +1,5 @@
 import '../styles/styles.css';
-
+import 'leaflet/dist/leaflet.css';
 import App from './pages/app';
 import swRegister from './utils';
 import { notifyRequest, subscribe } from './utils/notification';
