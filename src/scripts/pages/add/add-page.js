@@ -156,6 +156,8 @@ export default class AddPage {
 
     const fileNameSpan = document.querySelector(".file-name");
     fileNameSpan.textContent = "captured-image.jpg";
+
+    this.stopCamera();
   }
 
   #setupCameraControls() {
@@ -171,6 +173,7 @@ export default class AddPage {
 
   getBlobPhoto() {
     const fileCapture = base64ToFile(this.photoBlob, 'capture-image.jpg');
+
 
     return fileCapture;
   }

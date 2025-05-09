@@ -1,4 +1,6 @@
 Tidak menggunakan API key untuk maps karena menggunakan Leaflet cdn/link.
 
-APP_URL=https://monumental-cassata-f059db.netlify.app/  || https://monumental-cassata-f059db.netlify.app/#/login
+APP_URL=https://story-apps-mhd-fajrii.netlify.app/  || https://story-apps-mhd-fajrii.netlify.app/#/login
 MAP_SERVICE_API_KEY=<api_key>
+
+Menggunakan vite-plugin-pwa sebagai workbox,offline data dan pwa
