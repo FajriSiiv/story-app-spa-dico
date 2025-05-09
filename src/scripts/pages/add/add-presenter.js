@@ -31,7 +31,7 @@ export default class AddPresenter {
     formData.append("lon", lon);
     try {
 
-      // await this.#model(formData);
+      await this.#model(formData);
       alert("Story submitted successfully!");
 
       const reg = await navigator.serviceWorker.ready;
@@ -46,7 +46,7 @@ export default class AddPresenter {
       }
 
 
-      // window.location.hash = "/";
+      window.location.hash = "/";
     } catch (error) {
       alert("Failed to submit story.");
     }
